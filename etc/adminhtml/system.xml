@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="power_toys">
+            <group id="pot_google_translate" translate="label" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Google Translate</label>
+                <field id="is_enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="base_url" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Base Url</label>
+                </field>
+                <field id="approved_languages" translate="label comment" type="multiselect" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Languages</label>
+                    <source_model>Jajuma\PotGoogleTranslate\Model\Config\Source\Languages</source_model>
+                </field>
+                <field id="default_from_language" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>From Language</label>
+                    <source_model>Jajuma\PotGoogleTranslate\Model\Config\Source\Languages</source_model>
+                </field>
+                <field id="default_to_language" translate="label comment" type="select" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>To Language</label>
+                    <source_model>Jajuma\PotGoogleTranslate\Model\Config\Source\Languages</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

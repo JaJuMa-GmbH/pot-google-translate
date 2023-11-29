@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <power_toys>
+            <pot_google_translate>
+                <is_enabled>1</is_enabled>
+                <base_url>https://translate.googleapis.com/translate_a/single</base_url>
+                <default_from_language>auto</default_from_language>
+                <default_to_language>de</default_to_language>
+            </pot_google_translate>
+        </power_toys>
+    </default>
+</config>

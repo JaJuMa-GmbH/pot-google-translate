@@ -1,0 +1,154 @@
+<?php
+use Jajuma\PotGoogleTranslate\Block\QuickAction;
+use Magento\Framework\Escaper;
+
+/** @var $block QuickAction */
+/** @var $escaper Escaper */
+
+$magewire = $block->getMagewire();
+$defaultFromLanguage = $block->getDefaultFromLanguage();
+$defaultToLanguage = $block->getDefaultToLanguage();
+$approvedLanguages = $block->getApprovedLanguages();
+$allLanguages = $block->getAllLanguages();
+?>
+
+<div id="pot_google_translate">
+    <div class="content" wire:ignore>
+        <div class="from">
+            <select name="from_language">
+                <?php foreach ($approvedLanguages as $language): ?>
+                    <option value="<?= $language ?>" <?php if ($language === $defaultFromLanguage): ?>selected<?php endif; ?>>
+                        <?= $allLanguages[$language]; ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <textarea rows="4" onkeyup="sendGoogleTranslateRequest();"></textarea>
+        </div>
+        <div class="to">
+            <select name="to_language">
+                <?php foreach ($approvedLanguages as $language): ?>
+                    <?php if ($language != 'auto'): ?>
+                        <option value="<?= $language ?>" <?php if ($language === $defaultToLanguage): ?>selected<?php endif; ?>>
+                            <?= $allLanguages[$language]; ?>
+                        </option>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+            </select>
+            <textarea rows="4" readonly="readonly"></textarea>
+        </div>
+    </div>
+
+    <script>
+        let potGoogleTranslateTimer;
+        let fromLangElm = document.querySelector('.powerToysModalWrapper [data-action-id="pot_google_translate"] .content .from select');
+        let fromBox = document.querySelector('.powerToysModalWrapper [data-action-id="pot_google_translate"] .content .from textarea');
+
+        let toLangElm = document.querySelector('.powerToysModalWrapper [data-action-id="pot_google_translate"] .content .to select');
+        let toBox = document.querySelector('.powerToysModalWrapper [data-action-id="pot_google_translate"] .content .to textarea');
+
+        let ruText = 'Russian warship go fuck yourselve';
+        let isFirstToRu = false;
+
+        function sendGoogleTranslateRequest() {
+            clearTimeout(potGoogleTranslateTimer);
+            let value = fromBox.value;
+            let fromLang = fromLangElm.value;
+            let toLang = toLangElm.value;
+
+            if (!value) {
+                return;
+            }
+
+            if (fromLang === 'ru' || fromLang === 'uk' || toLang === 'ru' || toLang === 'uk') {
+                return;
+            }
+
+            let funValues = {request_content: value, from_lang: fromLang, to_lang: toLang};
+            potGoogleTranslateTimer = setTimeout(function() {
+                Magewire.emit('sendGoogleTranslateRequest', funValues);
+            }, 500);
+        }
+
+        window.addEventListener('finish-request-pot-google-translate', event => {
+            toBox.value = event.detail.message;
+        });
+
+        toLangElm.addEventListener('change', function () {
+            let fromLang = fromLangElm.value;
+            let toLang = toLangElm.value;
+
+            if (fromLang !== 'ru' && fromLang !== 'uk' && toLang !== 'ru' && toLang !== 'uk') {
+                toBox.value = '';
+                return sendGoogleTranslateRequest();
+            }
+
+            if (fromLang === 'ru' || fromLang === 'uk') {
+                fromBox.value = ruText;
+                fromBox.disabled = true;
+            }
+
+            if (toLang === 'ru' || toLang === 'uk') {
+                toBox.value = ruText;
+            } else {
+                toBox.value = '';
+            }
+        });
+
+        fromLangElm.addEventListener('change', function () {
+            let fromLang = fromLangElm.value;
+            let toLang = toLangElm.value;
+
+            if (fromLang === 'ru' || fromLang === 'uk') {
+                fromBox.value = ruText;
+                fromBox.disabled = true;
+            } else {
+                fromBox.value = '';
+                fromBox.disabled = false;
+            }
+
+            if (toLang === 'ru' || toLang === 'uk') {
+                toBox.value = ruText;
+            } else {
+                toBox.value = '';
+            }
+        });
+    </script>
+
+    <style>
+        .powertoys-modal-pot_google_translate {
+            height: auto;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+        }
+        #pot_google_translate .content {
+            width: 600px;
+            height: 200px;
+        }
+
+        #pot_google_translate .content div {
+            width: 50%;
+        }
+
+        #pot_google_translate .content div.from {
+            float: left;
+            padding-right: 10px;
+        }
+
+        #pot_google_translate .content div.to {
+            float: right;
+            padding-left: 10px;
+        }
+
+        #pot_google_translate .content textarea {
+            padding-top: 5px;
+            width: 100%;
+            height: 180px;
+        }
+
+        #pot_google_translate .content select {
+            width: 50%;
+            margin: 10px 0;
+        }
+    </style>
+</div>

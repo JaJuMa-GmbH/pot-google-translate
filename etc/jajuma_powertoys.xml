@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<powertoys xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Jajuma_PowerToys:etc/jajuma_powertoys.xsd">
+    <quickaction id="pot_google_translate" class="Jajuma\PotGoogleTranslate\Block\QuickAction">
+        <label translate="true">Google Translate</label>
+        <arguments>
+            <argument name="enable">true</argument>
+            <argument name="template">Jajuma_PotGoogleTranslate::quick_action.phtml</argument>
+            <argument name="widget_icon">Jajuma_PotGoogleTranslate::images/google_translate.svg</argument>
+            <argument name="magewire">Jajuma\PotGoogleTranslate\Magewire\QuickAction</argument>
+            <argument name="lazyload">false</argument>
+            <argument name="sort_order">50</argument>
+        </arguments>
+    </quickaction>
+</powertoys>
