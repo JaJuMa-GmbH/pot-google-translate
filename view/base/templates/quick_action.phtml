@@ -10,6 +10,8 @@ $defaultFromLanguage = $block->getDefaultFromLanguage();
 $defaultToLanguage = $block->getDefaultToLanguage();
 $approvedLanguages = $block->getApprovedLanguages();
 $allLanguages = $block->getAllLanguages();
+$powerToysHelper = $this->helper(\Jajuma\PowerToys\Helper\Data::class);
+$nonce = $powerToysHelper->getNonce();
 ?>
 
 <div id="pot_google_translate">
@@ -38,7 +40,7 @@ $allLanguages = $block->getAllLanguages();
         </div>
     </div>
 
-    <script>
+    <script <?= $nonce ? 'nonce="' . $nonce . '"' : '' ?>>
         let potGoogleTranslateTimer;
         let fromLangElm = document.querySelector('.powerToysModalWrapper [data-action-id="pot_google_translate"] .content .from select');
         let fromBox = document.querySelector('.powerToysModalWrapper [data-action-id="pot_google_translate"] .content .from textarea');
